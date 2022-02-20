@@ -6,18 +6,20 @@ using UnityEngine.Audio;
 public class Settings : MonoBehaviour
 {
     public AudioMixer masterMixer;
-    //public AudioMixer musicMixer;
-    //public AudioMixer audioMixer;
-    public void MasterVolume(int volume)
+    public void MasterVolume(float volume)
     {
         masterMixer.SetFloat("Master", volume);
     }
-    public void MusicVolume(int volume)
+    public void MusicVolume(float volume)
     {
         masterMixer.SetFloat("Music", volume);
     }
-    public void AudioVolume(int volume)
+    public void AudioVolume(float volume)
     {
         masterMixer.SetFloat("Audio", volume);
+    }
+    public void ToggleFullScreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
     }
 }
