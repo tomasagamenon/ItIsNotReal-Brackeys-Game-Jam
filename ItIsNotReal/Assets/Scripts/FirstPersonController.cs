@@ -68,7 +68,7 @@ namespace StarterAssets
 		private const float _threshold = 0.01f;
 
 		[Header("Camera Bob")]
-		private bool CameraBob = true;
+		public bool CameraBob = true;
 		private float timer;
 		private float defaultYPos = 0;
 		[SerializeField] private GameObject PlayerCameraRoot;
