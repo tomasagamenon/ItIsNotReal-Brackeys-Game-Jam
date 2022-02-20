@@ -25,5 +25,8 @@ public class MainMenu : MonoBehaviour
             settings.SetActive(false);
         credits.SetActive(!credits.activeInHierarchy);
     }
-
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
