@@ -1014,7 +1014,6 @@ MonoBehaviour:
   - {fileID: 225864680}
   - {fileID: 1113868211}
   - {fileID: 992466076}
-  Baner: {fileID: 122054933}
 --- !u!195 &1708209091
 NavMeshAgent:
   m_ObjectHideFlags: 0
