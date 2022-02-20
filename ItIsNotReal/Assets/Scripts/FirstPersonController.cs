@@ -1,6 +1,7 @@
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using Cinemachine;
 #endif
 
 namespace StarterAssets
@@ -65,7 +66,17 @@ namespace StarterAssets
 		private GameObject _mainCamera;
 
 		private const float _threshold = 0.01f;
-		
+
+		[Header("Camera Bob")]
+		private bool CameraBob = true;
+		private float timer;
+		private float defaultYPos = 0;
+		[SerializeField] private GameObject PlayerCameraRoot;
+		[SerializeField] private float walkBobSpeed;
+		[SerializeField] private float walkBobAmaunt;
+		[SerializeField] private float sprintBobSpeed;
+		[SerializeField] private float sprintBobAmaunt;
+
 		private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
 
 		private void Awake()
@@ -75,6 +86,7 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+			defaultYPos = PlayerCameraRoot.transform.localPosition.y;
 		}
 
 		private void Start()
@@ -92,6 +104,8 @@ namespace StarterAssets
 			GravityPlayer();
 			GroundedCheck();
 			Move();
+			if (CameraBob)
+				HandleHeadBob();
 		}
 
 		private void LateUpdate()
@@ -207,6 +221,21 @@ namespace StarterAssets
 				_verticalVelocity += Gravity * Time.deltaTime;
 			}
 		}
+
+		void HandleHeadBob()
+        {
+			if (!Grounded)
+				return;
+			if (Mathf.Abs(_input.move.x) > 0.1f || Mathf.Abs(_input.move.y) > 0.1f)
+            {
+				var playerCameraPos = PlayerCameraRoot.transform.localPosition;
+				timer += Time.deltaTime * (_input.sprint ? sprintBobSpeed : walkBobSpeed);
+				PlayerCameraRoot.transform.localPosition = new Vector3(
+					playerCameraPos.x, defaultYPos + Mathf.Sin(timer) * 
+					(_input.sprint ? sprintBobAmaunt : walkBobAmaunt)
+					, playerCameraPos.z);
+			}
+        }
 
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
