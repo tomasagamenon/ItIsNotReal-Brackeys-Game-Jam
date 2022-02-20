@@ -17,6 +17,8 @@ namespace StarterAssets
 		public float MoveSpeed = 4.0f;
 		[Tooltip("Sprint speed of the character in m/s")]
 		public float SprintSpeed = 6.0f;
+		[Tooltip("Crouch speed of the character in m/s")]
+		public float CrouchSpeed = 2.0f;
 		[Tooltip("Rotation speed of the character")]
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
@@ -76,8 +78,13 @@ namespace StarterAssets
 		[SerializeField] private float walkBobAmaunt;
 		[SerializeField] private float sprintBobSpeed;
 		[SerializeField] private float sprintBobAmaunt;
+		[SerializeField] private float crouchBobSpeed;
+		[SerializeField] private float crouchBobAmaunt;
 
 		private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
+
+		private Vector3 crouchPos;
+		private Vector3 normalPos;
 
 		private void Awake()
 		{
@@ -97,6 +104,8 @@ namespace StarterAssets
 
 			// reset our timeouts on start
 			_fallTimeoutDelta = FallTimeout;
+			normalPos = PlayerCameraRoot.transform.localPosition;
+			crouchPos = PlayerCameraRoot.transform.localPosition + new Vector3(0, -0.75f, 0);
 		}
 
 		private void Update()
@@ -145,8 +154,11 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			float targetSpeed = _input.sprint ? SprintSpeed : _input.crouch ? CrouchSpeed : MoveSpeed;
 
+			if (_input.crouch && !_input.sprint)
+				PlayerCameraRoot.transform.localPosition = crouchPos;
+			else PlayerCameraRoot.transform.localPosition = normalPos;
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -229,10 +241,11 @@ namespace StarterAssets
 			if (Mathf.Abs(_input.move.x) > 0.1f || Mathf.Abs(_input.move.y) > 0.1f)
             {
 				var playerCameraPos = PlayerCameraRoot.transform.localPosition;
-				timer += Time.deltaTime * (_input.sprint ? sprintBobSpeed : walkBobSpeed);
+				var DefaulY = (_input.sprint ? defaultYPos : _input.crouch ? crouchPos.y : defaultYPos);
+				timer += Time.deltaTime * (_input.sprint ? sprintBobSpeed : _input.crouch ? crouchBobSpeed : walkBobSpeed);
 				PlayerCameraRoot.transform.localPosition = new Vector3(
-					playerCameraPos.x, defaultYPos + Mathf.Sin(timer) * 
-					(_input.sprint ? sprintBobAmaunt : walkBobAmaunt)
+					playerCameraPos.x, DefaulY + Mathf.Sin(timer) * 
+					(_input.sprint ? sprintBobAmaunt : _input.crouch ? crouchBobAmaunt : walkBobAmaunt)
 					, playerCameraPos.z);
 			}
         }

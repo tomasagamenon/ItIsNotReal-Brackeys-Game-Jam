@@ -195,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 4
   SprintSpeed: 6
+  CrouchSpeed: 2
   RotationSpeed: 1
   SpeedChangeRate: 10
   Gravity: -15
@@ -208,11 +209,14 @@ MonoBehaviour:
   CinemachineCameraTarget: {fileID: 4135013735270702863}
   TopClamp: 89
   BottomClamp: -89
+  CameraBob: 1
   PlayerCameraRoot: {fileID: 4135013735270702863}
   walkBobSpeed: 14
   walkBobAmaunt: 0.05
   sprintBobSpeed: 18
   sprintBobAmaunt: 0.1
+  crouchBobSpeed: 12
+  crouchBobAmaunt: 0.025
 --- !u!114 &1978471637655604388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +250,7 @@ MonoBehaviour:
   look: {x: 0, y: 0}
   jump: 0
   sprint: 0
+  crouch: 0
   analogMovement: 0
   cursorLocked: 1
   cursorInputForLook: 1
