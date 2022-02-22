@@ -8,25 +8,132 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject settings;
     public GameObject credits;
+    [Header("Main Menu")]
+    public TextMeshProUGUI startText;
+    public TextMeshProUGUI settingsText;
+    public TextMeshProUGUI creditsText;
+    public TextMeshProUGUI quitText;
+    [Header("Game Menu")]
+    public GameObject gameMenu;
+    public TextMeshProUGUI gResumeText;
+    public TextMeshProUGUI gSettingsText;
+    public TextMeshProUGUI gMenuText;
+    [Header("Settings")]
+    [SerializeField]private TextMeshProUGUI _fovValue;
+    [SerializeField]private TextMeshProUGUI _sensibilityValue;
+    [SerializeField]private TextMeshProUGUI _masterValue;
+    [SerializeField]private TextMeshProUGUI _musicValue;
+    [SerializeField]private TextMeshProUGUI _audioValue;
+    [SerializeField] private Slider _fovSlider;
+    [SerializeField] private Slider _sensibilitySlider;
+    [SerializeField] private Slider _masterSlider;
+    [SerializeField] private Slider _musicSlider;
+    [SerializeField] private Slider _audioSlider;
+    [SerializeField] private Toggle _fullScreenToggle;
+    [SerializeField] private Toggle _headBobToggle;
+    private Color white = Color.white;
+    private Color black = Color.black;
     public void Play()
     {
-        Debug.Log("algo");
+        if (settings.activeInHierarchy)
+            ToggleSettings();
+        else if (credits.activeInHierarchy)
+            ToggleCredits();
+        startText.color = black;
+        Debug.Log("Start");
     }
-
+    public void Resume()
+    {
+        if (settings.activeInHierarchy)
+            ToggleSettings();
+        else if (credits.activeInHierarchy)
+            ToggleCredits();
+        Debug.Log("Resume");
+        gResumeText.color = black;
+        gameMenu.SetActive(false);
+    }
     public void ToggleSettings()
     {
         if (credits.activeInHierarchy)
-            credits.SetActive(false);
-        settings.SetActive(!settings.activeInHierarchy);
+            ToggleCredits();
+        if (!settings.activeInHierarchy)
+        {
+            settings.SetActive(true);
+            settingsText.color = black;
+            gSettingsText.color = black;
+        }
+        else
+        {
+            settings.SetActive(false);
+            settingsText.color = white;
+            gSettingsText.color = white;
+        }
     }
     public void ToggleCredits()
     {
         if (settings.activeInHierarchy)
-            settings.SetActive(false);
-        credits.SetActive(!credits.activeInHierarchy);
+            ToggleSettings();
+        if (!credits.activeInHierarchy)
+        {
+            credits.SetActive(true);
+            creditsText.color = black;
+        }
+        else
+        {
+            credits.SetActive(false);
+            creditsText.color = white;
+        }
+    }
+    public void QuitToMenu()
+    {
+        if (settings.activeInHierarchy)
+            ToggleSettings();
+        else if (credits.activeInHierarchy)
+            ToggleCredits();
+        gMenuText.color = black;
+        Debug.Log("Quit to Menu");
     }
     public void Quit()
     {
+        if (settings.activeInHierarchy)
+            ToggleSettings();
+        else if (credits.activeInHierarchy)
+            ToggleCredits();
+        quitText.color = black;
+        gMenuText.color = black;
         Application.Quit();
+    }
+    public void FovUpdate(float value)
+    {
+        _fovValue.text = value.ToString();
+        //_fovSlider.value = value;
+    }
+    public void SensibilityUpdate(float value)
+    {
+        _sensibilityValue.text = value.ToString();
+        //_sensibilitySlider.value = value;
+    }
+    public void MasterUpdate(float value)
+    {
+        _masterValue.text = (value + 80).ToString();
+        //_masterSlider.value = value;
+    }
+    public void MusicUpdate(float value)
+    {
+        _musicValue.text = (value + 80).ToString();
+        //_musicSlider.value = value;
+    }
+    public void AudioUpdate(float value)
+    {
+        _audioValue.text = (value + 80).ToString();
+        //_audioSlider.value = value;
+    }
+    public void FullscreenUpdate(bool value)
+    {
+        _fullScreenToggle.isOn = value;
+    }
+    public void HeadBobUpdate(bool value)
+    {
+        _headBobToggle.isOn = value;
     }
 }
