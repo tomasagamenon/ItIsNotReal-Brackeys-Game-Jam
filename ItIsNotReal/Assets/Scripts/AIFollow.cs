@@ -69,8 +69,8 @@ public class AIFollow : MonoBehaviour
         yield return new WaitForSeconds(1);
         posToGo = player.transform.position;
         agent.SetDestination(posToGo);
-        yield return new WaitUntil(() => (Vector3.Distance(posToGo, transform.position) < 1 
-            && Vector3.Distance(posToGo, transform.position) > -1));
+        yield return new WaitUntil(() => ((Vector3.Distance(posToGo, transform.position) < 1
+            && Vector3.Distance(posToGo, transform.position) > -1) || FindObjectOfType<StarterAssets.FirstPersonController>().hide));
         command = Commands.Idle;
         yield return new WaitForSeconds(0.5f);
         command = Commands.Search;

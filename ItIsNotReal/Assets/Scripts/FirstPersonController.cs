@@ -67,7 +67,7 @@ namespace StarterAssets
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 
-		private const float _threshold = 0.01f;
+		private const float _threshold = 0.001f;
 
 		[Header("Camera Bob")]
 		public bool CameraBob = true;
@@ -85,6 +85,8 @@ namespace StarterAssets
 
 		private Vector3 crouchPos;
 		private Vector3 normalPos;
+
+		public bool hide;
 
 		private void Awake()
 		{
@@ -250,7 +252,19 @@ namespace StarterAssets
 			}
         }
 
-		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+        private void OnTriggerEnter(Collider other)
+        {
+			if (other.gameObject.layer == 8)
+				hide = true;
+        }
+
+        private void OnTriggerExit(Collider other)
+		{
+			if (other.gameObject.layer == 8)
+				hide = false;
+		}
+
+        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;

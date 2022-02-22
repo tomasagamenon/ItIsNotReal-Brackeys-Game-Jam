@@ -21,6 +21,8 @@ public class AIDetect : MonoBehaviour
 
     public bool IsInSight(Transform target)
     {
+        if (FindObjectOfType<StarterAssets.FirstPersonController>().hide)
+            return false;
         Vector3 diff = (target.position - transform.position);
         //A--->B
         //B-A
