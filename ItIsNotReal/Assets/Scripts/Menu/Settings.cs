@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 public class Settings : MonoBehaviour
 {
     public AudioMixer masterMixer;
+    static private float sensitivityStatic;
     public void MasterVolume(float volume)
     {
         masterMixer.SetFloat("Master", volume);
