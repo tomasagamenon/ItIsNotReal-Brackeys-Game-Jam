@@ -22,4 +22,8 @@ public class Settings : MonoBehaviour
     {
         Screen.fullScreen = isFullscreen;
     }
+    public void Sensitivity(float sensitivity)
+    {
+        masterMixer.SetFloat("Audio", sensitivity);
+    }
 }
