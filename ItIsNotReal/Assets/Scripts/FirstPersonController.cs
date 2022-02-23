@@ -86,6 +86,11 @@ namespace StarterAssets
 		private Vector3 crouchPos;
 		private Vector3 normalPos;
 
+		[Header("Interact")]
+		public float range;
+		public float angle;
+		public LayerMask mask;
+
 		public bool hide;
 
 		private void Awake()
@@ -117,6 +122,13 @@ namespace StarterAssets
 			Move();
 			if (CameraBob)
 				HandleHeadBob();
+			if(_input.interact)
+            {
+				var interactable = FindObjectsOfType<Interactable>();
+				foreach(Interactable interact in interactable)
+					if (IsInSight(interact.transform))
+						interact.Interact();
+            }
 		}
 
 		private void LateUpdate()
@@ -269,6 +281,20 @@ namespace StarterAssets
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
+		}
+
+		public bool IsInSight(Transform target)
+		{
+			if (FindObjectOfType<StarterAssets.FirstPersonController>().hide)
+				return false;
+			Vector3 diff = (target.position - transform.position);
+			//A--->B
+			//B-A
+			float distance = diff.magnitude;
+			if (distance > range) return false;
+			if (Vector3.Angle(transform.forward, diff) > angle / 2) return false;
+			if (Physics.Raycast(transform.position, diff.normalized, distance, mask)) return false;
+			return true;
 		}
 
 		private void OnDrawGizmosSelected()

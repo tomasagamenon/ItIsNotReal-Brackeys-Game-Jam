@@ -28,11 +28,15 @@ namespace StarterAssets
             starterAssetsInputs.SprintInput(virtualSprintState);
         }
 
-        public void VirtualCrouchInput(bool virtualSprintState)
+        public void VirtualCrouchInput(bool virtualCrouchState)
         {
-            starterAssetsInputs.CrouchInput(virtualSprintState);
+            starterAssetsInputs.CrouchInput(virtualCrouchState);
         }
 
+        public void VirtualInteractInput(bool virtualInteractState)
+        {
+            starterAssetsInputs.InteractInput(virtualInteractState);
+        }
     }
 
 }
