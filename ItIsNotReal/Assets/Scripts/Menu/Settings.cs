@@ -13,16 +13,17 @@ public class Settings : MonoBehaviour
     private string _sensibility = "Sensibility";
     private string _fullScreen = "Fullscreen";
     private string _headBob = "Headbob";
+    private string _blur = "Blur";
     static private float sensitivityStatic;
-    static private bool hold;
+    private bool hold = true;
 
     private float defaultFov = 70;
     private float defaultSensibility = 100;
     private void Awake()
     {
-        mainMenu = FindObjectOfType<MainMenu>();
-        if (mainMenu == null)
-            hold = true;
+        mainMenu = GetComponent<MainMenu>();
+        if (mainMenu != null)
+            hold = false;
     }
     private void Start()
     {
@@ -68,6 +69,11 @@ public class Settings : MonoBehaviour
         //(el head bob) = isHeadBob;
         PlayerPrefs.SetInt(_headBob, Convert.ToInt32(isHeadBob));
     }
+    public void ToggleBlur(bool isBlur)
+    {
+        //(blur) = isBlur;
+        PlayerPrefs.SetInt(_blur, Convert.ToInt32(isBlur));
+    }
     public void Sensibility(float sensitivity)
     {
         //masterMixer.SetFloat("Audio", sensitivity);
@@ -92,5 +98,6 @@ public class Settings : MonoBehaviour
         Sensibility(PlayerPrefs.GetFloat(_sensibility, defaultSensibility));
         ToggleFullScreen(Convert.ToBoolean(PlayerPrefs.GetInt(_fullScreen, 1)));
         ToggleHeadBob(Convert.ToBoolean(PlayerPrefs.GetInt(_headBob, 1)));
+        ToggleBlur(Convert.ToBoolean(PlayerPrefs.GetInt(_blur, 1)));
     }
 }

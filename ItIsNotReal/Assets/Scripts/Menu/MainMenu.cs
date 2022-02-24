@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Slider _audioSlider;
     [SerializeField] private Toggle _fullScreenToggle;
     [SerializeField] private Toggle _headBobToggle;
+    [SerializeField] private Toggle _blurToggle;
     private Color white = Color.white;
     private Color black = Color.black;
     public void Play()
@@ -40,7 +42,7 @@ public class MainMenu : MonoBehaviour
         else if (credits.activeInHierarchy)
             ToggleCredits();
         startText.color = black;
-        Debug.Log("Start");
+        SceneManager.LoadScene(2);
     }
     public void Resume()
     {
@@ -130,10 +132,14 @@ public class MainMenu : MonoBehaviour
     }
     public void FullscreenUpdate(bool value)
     {
-        _fullScreenToggle.isOn = value;
+        //_fullScreenToggle.isOn = value;
     }
     public void HeadBobUpdate(bool value)
     {
-        _headBobToggle.isOn = value;
+        //_headBobToggle.isOn = value;
+    }
+    public void BlurUpdate(bool value)
+    {
+        //_blurToggle.isOn = value;
     }
 }

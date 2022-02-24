@@ -8,7 +8,7 @@ public class StartupScript : MonoBehaviour
     private Settings settings;
     private void Awake()
     {
-        settings = FindObjectOfType<Settings>();
+        settings = GetComponent<Settings>();
         settings.LoadValues();
     }
     private void Start()
