@@ -123,12 +123,14 @@ namespace StarterAssets
 			if (CameraBob)
 				HandleHeadBob();
 			if(_input.interact)
-            {
+			{
 				var interactable = FindObjectsOfType<Interactable>();
 				foreach(Interactable interact in interactable)
 					if (IsInSight(interact.transform))
 						interact.Interact();
-            }
+				_input.interact = false;
+
+			}
 		}
 
 		private void LateUpdate()
@@ -285,15 +287,17 @@ namespace StarterAssets
 
 		public bool IsInSight(Transform target)
 		{
+			var pos = FindObjectOfType<Camera>().transform;
 			if (FindObjectOfType<StarterAssets.FirstPersonController>().hide)
 				return false;
-			Vector3 diff = (target.position - transform.position);
+			Vector3 diff = (target.position - pos.position);
 			//A--->B
 			//B-A
 			float distance = diff.magnitude;
-			if (distance > range) return false;
-			if (Vector3.Angle(transform.forward, diff) > angle / 2) return false;
-			if (Physics.Raycast(transform.position, diff.normalized, distance, mask)) return false;
+			if (distance > range)
+				return false;
+			if (Physics.Raycast(pos.position, pos.up, distance, mask))
+				return false;
 			return true;
 		}
 
@@ -307,6 +311,12 @@ namespace StarterAssets
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+			Gizmos.color = Color.blue;
+			var pos = FindObjectOfType<Camera>().transform;
+			Gizmos.DrawRay(pos.position, pos.forward * range);
+			Gizmos.DrawWireSphere(pos.position, range);
+			Gizmos.DrawRay(pos.position, Quaternion.Euler(0, angle / 2, 0) * pos.forward * range);
+			Gizmos.DrawRay(pos.position, Quaternion.Euler(0, -angle / 2, 0) * pos.forward * range);
 		}
 	}
 }
