@@ -108,38 +108,53 @@ public class MainMenu : MonoBehaviour
     public void FovUpdate(float value)
     {
         _fovValue.text = value.ToString();
-        //_fovSlider.value = value;
     }
     public void SensibilityUpdate(float value)
     {
         _sensibilityValue.text = value.ToString();
-        //_sensibilitySlider.value = value;
     }
     public void MasterUpdate(float value)
     {
         _masterValue.text = (value + 80).ToString();
-        //_masterSlider.value = value;
     }
     public void MusicUpdate(float value)
     {
         _musicValue.text = (value + 80).ToString();
-        //_musicSlider.value = value;
     }
     public void AudioUpdate(float value)
     {
         _audioValue.text = (value + 80).ToString();
-        //_audioSlider.value = value;
     }
     public void FullscreenUpdate(bool value)
     {
-        //_fullScreenToggle.isOn = value;
+        _fullScreenToggle.isOn = value;
     }
     public void HeadBobUpdate(bool value)
     {
-        //_headBobToggle.isOn = value;
+        _headBobToggle.isOn = value;
     }
     public void BlurUpdate(bool value)
     {
-        //_blurToggle.isOn = value;
+        _blurToggle.isOn = value;
+    }
+    public void MasterSlider(float value)
+    {
+        _masterSlider.value = value;
+    }
+    public void MusicSlider(float value)
+    {
+        _musicSlider.value = value;
+    }
+    public void AudioSlider(float value)
+    {
+        _audioSlider.value = value;
+    }
+    public void FovSlider(float value)
+    {
+        _fovSlider.value = value;
+    }
+    public void SensibilitySlider(float value)
+    {
+        _sensibilitySlider.value = value;
     }
 }

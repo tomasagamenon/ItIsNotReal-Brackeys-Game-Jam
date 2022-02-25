@@ -30,12 +30,18 @@ public class Settings : MonoBehaviour
         if (!hold)
         {
             mainMenu.MasterUpdate(PlayerPrefs.GetFloat(_master));
+            mainMenu.MasterSlider(PlayerPrefs.GetFloat(_master));
             mainMenu.MusicUpdate(PlayerPrefs.GetFloat(_music));
+            mainMenu.MusicSlider(PlayerPrefs.GetFloat(_music));
             mainMenu.AudioUpdate(PlayerPrefs.GetFloat(_audio));
+            mainMenu.AudioSlider(PlayerPrefs.GetFloat(_audio));
             mainMenu.FovUpdate(PlayerPrefs.GetFloat(_fov));
+            mainMenu.FovSlider(PlayerPrefs.GetFloat(_fov));
             mainMenu.SensibilityUpdate(PlayerPrefs.GetFloat(_sensibility));
+            mainMenu.SensibilitySlider(PlayerPrefs.GetFloat(_sensibility));
             mainMenu.FullscreenUpdate(Convert.ToBoolean(PlayerPrefs.GetInt(_fullScreen)));
             mainMenu.HeadBobUpdate(Convert.ToBoolean(PlayerPrefs.GetInt(_headBob)));
+            mainMenu.BlurUpdate(Convert.ToBoolean(PlayerPrefs.GetInt(_blur)));
         }
     }
     public void MasterVolume(float volume)
