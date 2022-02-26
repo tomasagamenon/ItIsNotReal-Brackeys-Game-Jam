@@ -65,13 +65,15 @@ public class AIFollow : MonoBehaviour
     {
         FindObjectOfType<PlayerSanity>().pursuedBool = true;
         command = Commands.Follow;
-        yield return new WaitUntil(() => !Physics.Raycast(transform.position, player.transform.position));
+        yield return new WaitUntil(() => !Physics.Raycast(transform.position, player.transform.position) 
+        || FindObjectOfType<StarterAssets.FirstPersonController>().hide);
         command = Commands.Nothing;
-        yield return new WaitForSeconds(1);
+        if (!FindObjectOfType<StarterAssets.FirstPersonController>().hide)
+            yield return new WaitForSeconds(1);
         posToGo = player.transform.position;
         agent.SetDestination(posToGo);
-        yield return new WaitUntil(() => ((Vector3.Distance(posToGo, transform.position) < 1
-            && Vector3.Distance(posToGo, transform.position) > -1) || FindObjectOfType<StarterAssets.FirstPersonController>().hide));
+        yield return new WaitUntil(() => (Vector3.Distance(posToGo, transform.position) < 1
+            && Vector3.Distance(posToGo, transform.position) > -1) || FindObjectOfType<StarterAssets.FirstPersonController>().hide);
         command = Commands.Idle;
         yield return new WaitForSeconds(0.5f);
         command = Commands.Search;

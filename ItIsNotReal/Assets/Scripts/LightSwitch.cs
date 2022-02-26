@@ -59,7 +59,7 @@ public class LightSwitch : Interactable
             }
             yield return new WaitForSeconds(c);
         }
-        if (a)
+        if (!a)
         {
             light.GetComponentInChildren<Renderer>().material = lightOff;
             lights[numOfLight].SetActive(false);
