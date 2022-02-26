@@ -9,7 +9,7 @@ public class Settings : MonoBehaviour
 {
     public AudioMixer masterMixer;
     private MainMenu mainMenu;
-    private FirstPersonController player;
+    [SerializeField]private FirstPersonController player;
     private Cinemachine.CinemachineVirtualCamera cinemachine;
     private Volume volume;
     private MotionBlur motionBlur;
@@ -30,10 +30,13 @@ public class Settings : MonoBehaviour
     private void Awake()
     {
         mainMenu = GetComponent<MainMenu>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
-        cinemachine = GameObject.Find("PlayerFollowCamera").GetComponent<Cinemachine.CinemachineVirtualCamera>();
-        volume = GameObject.Find("Post Processing").GetComponent<Volume>();
-        volume.profile.TryGet<MotionBlur>(out motionBlur);
+        if (GameObject.FindGameObjectWithTag("Player"))
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
+            cinemachine = GameObject.Find("PlayerFollowCamera").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            volume = GameObject.Find("Post Processing").GetComponent<Volume>();
+            volume.profile.TryGet<MotionBlur>(out motionBlur);
+        }
         if (mainMenu != null)
         {
             hold = false;
@@ -61,9 +64,10 @@ public class Settings : MonoBehaviour
         }
         if (!playerHold)
         {
-            player.RotationSpeed = PlayerPrefs.GetFloat(_sensibility);
-            player.CameraBob = Convert.ToBoolean(PlayerPrefs.GetInt(_headBob));
-            motionBlur.active = Convert.ToBoolean(PlayerPrefs.GetInt(_blur));
+            player.RotationSpeed = PlayerPrefs.GetFloat(_sensibility, defaultSensibility);
+            player.CameraBob = Convert.ToBoolean(PlayerPrefs.GetInt(_headBob, 1));
+            motionBlur.active = Convert.ToBoolean(PlayerPrefs.GetInt(_blur, 1));
+            cinemachine.m_Lens.FieldOfView = PlayerPrefs.GetFloat(_fov, 1);
         }
     }
     public void MasterVolume(float volume)
@@ -94,25 +98,29 @@ public class Settings : MonoBehaviour
     }
     public void ToggleHeadBob(bool isHeadBob)
     {
-        player.CameraBob = isHeadBob;
+        if(!playerHold)
+            player.CameraBob = isHeadBob;
         PlayerPrefs.SetInt(_headBob, Convert.ToInt32(isHeadBob));
     }
     public void ToggleBlur(bool isBlur)
     {
-        motionBlur.active = isBlur;
+        if(!playerHold)
+            motionBlur.active = isBlur;
         PlayerPrefs.SetInt(_blur, Convert.ToInt32(isBlur));
     }
     public void Sensibility(float sensibility)
     {
-        player.RotationSpeed = sensibility;
         PlayerPrefs.SetFloat(_sensibility, sensibility);
+        if(!playerHold)
+            player.RotationSpeed = sensibility;
         if(!hold)
             mainMenu.SensibilityUpdate(sensibility);
     }
     public void Fov(float fov)
     {
-        cinemachine.m_Lens.FieldOfView = fov;
         PlayerPrefs.SetFloat(_fov, fov);
+        if(!playerHold)
+            cinemachine.m_Lens.FieldOfView = fov;
         if(!hold)
             mainMenu.FovUpdate(fov);
     }
