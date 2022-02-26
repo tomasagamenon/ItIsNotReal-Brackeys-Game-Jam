@@ -61,6 +61,7 @@ public class MainMenu : MonoBehaviour
             gameMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+            Time.timeScale = 0;
             //pausar cosas de algun modo
         }
         else
@@ -70,6 +71,7 @@ public class MainMenu : MonoBehaviour
             gameMenu.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            Time.timeScale = 1;
             //despausar cosas
         }
 
