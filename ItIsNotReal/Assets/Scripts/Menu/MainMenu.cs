@@ -50,9 +50,29 @@ public class MainMenu : MonoBehaviour
             ToggleSettings();
         else if (credits.activeInHierarchy)
             ToggleCredits();
-        Debug.Log("Resume");
-        gResumeText.color = black;
         gameMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    public void ToggleMenu()
+    {
+        if (!gameMenu.activeInHierarchy)
+        {
+            gameMenu.SetActive(true);
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+            //pausar cosas de algun modo
+        }
+        else
+        {
+            if (settings.activeInHierarchy)
+                ToggleSettings();
+            gameMenu.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            //despausar cosas
+        }
+
     }
     public void ToggleSettings()
     {
@@ -107,11 +127,11 @@ public class MainMenu : MonoBehaviour
     }
     public void FovUpdate(float value)
     {
-        _fovValue.text = value.ToString();
+        _fovValue.text = (value + 20).ToString();
     }
     public void SensibilityUpdate(float value)
     {
-        _sensibilityValue.text = value.ToString();
+        _sensibilityValue.text = value.ToString("N2");
     }
     public void MasterUpdate(float value)
     {

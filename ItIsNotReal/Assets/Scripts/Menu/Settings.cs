@@ -1,11 +1,18 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using StarterAssets;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Settings : MonoBehaviour
 {
     public AudioMixer masterMixer;
     private MainMenu mainMenu;
+    private FirstPersonController player;
+    private Cinemachine.CinemachineVirtualCamera cinemachine;
+    private Volume volume;
+    private MotionBlur motionBlur;
     private string _master = "Master";
     private string _music = "Music";
     private string _audio = "Audio";
@@ -15,15 +22,24 @@ public class Settings : MonoBehaviour
     private string _headBob = "Headbob";
     private string _blur = "Blur";
     static private float sensitivityStatic;
-    private bool hold = true;
+    [SerializeField]private bool hold = true;
+    [SerializeField]private bool playerHold = true;
 
-    private float defaultFov = 70;
+    private float defaultFov = 60;
     private float defaultSensibility = 100;
     private void Awake()
     {
         mainMenu = GetComponent<MainMenu>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<FirstPersonController>();
+        cinemachine = GameObject.Find("PlayerFollowCamera").GetComponent<Cinemachine.CinemachineVirtualCamera>();
+        volume = GameObject.Find("Post Processing").GetComponent<Volume>();
+        volume.profile.TryGet<MotionBlur>(out motionBlur);
         if (mainMenu != null)
+        {
             hold = false;
+            if (player != null)
+                playerHold = false;
+        }
     }
     private void Start()
     {
@@ -42,6 +58,12 @@ public class Settings : MonoBehaviour
             mainMenu.FullscreenUpdate(Convert.ToBoolean(PlayerPrefs.GetInt(_fullScreen)));
             mainMenu.HeadBobUpdate(Convert.ToBoolean(PlayerPrefs.GetInt(_headBob)));
             mainMenu.BlurUpdate(Convert.ToBoolean(PlayerPrefs.GetInt(_blur)));
+        }
+        if (!playerHold)
+        {
+            player.RotationSpeed = PlayerPrefs.GetFloat(_sensibility);
+            player.CameraBob = Convert.ToBoolean(PlayerPrefs.GetInt(_headBob));
+            motionBlur.active = Convert.ToBoolean(PlayerPrefs.GetInt(_blur));
         }
     }
     public void MasterVolume(float volume)
@@ -72,24 +94,24 @@ public class Settings : MonoBehaviour
     }
     public void ToggleHeadBob(bool isHeadBob)
     {
-        //(el head bob) = isHeadBob;
+        player.CameraBob = isHeadBob;
         PlayerPrefs.SetInt(_headBob, Convert.ToInt32(isHeadBob));
     }
     public void ToggleBlur(bool isBlur)
     {
-        //(blur) = isBlur;
+        motionBlur.active = isBlur;
         PlayerPrefs.SetInt(_blur, Convert.ToInt32(isBlur));
     }
-    public void Sensibility(float sensitivity)
+    public void Sensibility(float sensibility)
     {
-        //masterMixer.SetFloat("Audio", sensitivity);
-        PlayerPrefs.SetFloat(_sensibility, sensitivity);
+        player.RotationSpeed = sensibility;
+        PlayerPrefs.SetFloat(_sensibility, sensibility);
         if(!hold)
-            mainMenu.SensibilityUpdate(sensitivity);
+            mainMenu.SensibilityUpdate(sensibility);
     }
     public void Fov(float fov)
     {
-        //modificar
+        cinemachine.m_Lens.FieldOfView = fov;
         PlayerPrefs.SetFloat(_fov, fov);
         if(!hold)
             mainMenu.FovUpdate(fov);

@@ -18,6 +18,9 @@ namespace StarterAssets
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
+		[Header("Menu")]
+		public MainMenu menu;
+
 #if !UNITY_IOS || !UNITY_ANDROID
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
@@ -57,6 +60,10 @@ namespace StarterAssets
 		{
 			InteractInput(value.isPressed);
 		}
+		public void OnMenu(InputValue value)
+        {
+			menu.ToggleMenu();
+        }
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
