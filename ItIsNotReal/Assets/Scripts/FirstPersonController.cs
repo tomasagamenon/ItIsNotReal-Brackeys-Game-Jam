@@ -93,6 +93,11 @@ namespace StarterAssets
 
 		public bool hide;
 
+		[Header("SeeEnemyEvent")]
+		[SerializeField]
+		private float rangeEnemyEvent;
+		[SerializeField]
+		private float angleEnemyEvent;
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -129,8 +134,11 @@ namespace StarterAssets
 					if (IsInSight(interact.transform, range, 0))
 						interact.Interact();
 				_input.interact = false;
-
 			}
+			var enemysE = FindObjectsOfType<EnemyEvent>();
+			foreach (EnemyEvent enemy in enemysE)
+				if (IsInSight(enemy.transform, rangeEnemyEvent, angleEnemyEvent))
+					enemy.Event();
 		}
 
 		private void LateUpdate()
@@ -288,8 +296,6 @@ namespace StarterAssets
 		public bool IsInSight(Transform target, float range, float angle)
 		{
 			var pos = FindObjectOfType<Camera>().transform;
-			if (FindObjectOfType<StarterAssets.FirstPersonController>().hide)
-				return false;
 			Vector3 diff = (target.position - pos.position);
 			//A--->B
 			//B-A
@@ -297,7 +303,7 @@ namespace StarterAssets
 			if (distance > range)
 				return false;
 			if (angle > 0)
-				if (Vector3.Angle(transform.forward, diff) > angle / 2) return false;
+				if (Vector3.Angle(pos.forward, diff) > angle / 2) return false;
 			if (Physics.Raycast(pos.position, pos.up, distance, mask))
 				return false;
 			return true;
