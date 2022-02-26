@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1978471637655604388}
   - component: {fileID: 5420857361349278248}
   - component: {fileID: 8616685848737228376}
+  - component: {fileID: 8070248224766441247}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -217,6 +218,11 @@ MonoBehaviour:
   sprintBobAmaunt: 0.1
   crouchBobSpeed: 12
   crouchBobAmaunt: 0.025
+  range: 3
+  angle: 3
+  mask:
+    serializedVersion: 2
+    m_Bits: 192
   hide: 0
 --- !u!114 &1978471637655604388
 MonoBehaviour:
@@ -252,7 +258,9 @@ MonoBehaviour:
   jump: 0
   sprint: 0
   crouch: 0
+  interact: 0
   analogMovement: 0
+  menu: {fileID: 0}
   cursorLocked: 1
   cursorInputForLook: 1
 --- !u!114 &8616685848737228376
@@ -353,3 +361,36 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8070248224766441247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f441da34a7ee18144a81b4d675fe31c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 0}
+  darkness: 3
+  seeEnemy: 2
+  rangeEnemy: 40
+  angleEnemy: 60
+  pursued: 1
+  pursuedBool: 0
+  quiet: 5
+  multiplierSanityPerPoint: 0
+  SanityStartCAInt: 0
+  MaxCAIntensity: 0
+  MinCAIntensity: 0
+  SanityStartLDInt: 0
+  MaxLDIntensity: 0
+  MinLDIntensity: 0
+  SanityStartVInt: 0
+  MaxVIntensity: 0
+  MinVIntensity: 0
+  SanityStartVSmooth: 0
+  MaxVSmoothness: 0
+  MinVSmoothness: 0

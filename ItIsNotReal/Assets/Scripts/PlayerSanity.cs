@@ -24,6 +24,8 @@ public class PlayerSanity : MonoBehaviour
     [SerializeField]
     private float rangeEnemy;
     [SerializeField]
+    private float angleEnemy;
+    [SerializeField]
     private float pursued;
     private float pursuedCurrent;
     public bool pursuedBool;
@@ -102,7 +104,7 @@ public class PlayerSanity : MonoBehaviour
                 chromatic.intensity.value = Calculate(MaxCAIntensity, chromatic.intensity.value, SanityStartCAInt);
             multiplierSanity += multiplierSanityPerPoint;
         }
-        if (GetComponent<FirstPersonController>().IsInSight(FindObjectOfType<AIFollow>().transform, rangeEnemy))
+        if (GetComponent<FirstPersonController>().IsInSight(FindObjectOfType<AIFollow>().transform, rangeEnemy, angleEnemy))
             seeEnemyBool = true;
         else seeEnemyBool = false;
         if (seeEnemyBool)
@@ -169,5 +171,13 @@ public class PlayerSanity : MonoBehaviour
         var multiplier = 1 + (multiplierSanityPerPoint * sanity);
         var one = (maxValue / sanityStart) / multiplier;
         return (one + value);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, transform.forward * rangeEnemy);
+        Gizmos.DrawWireSphere(transform.position, rangeEnemy);
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angleEnemy / 2, 0) * transform.forward * rangeEnemy);
+        Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -angleEnemy / 2, 0) * transform.forward * rangeEnemy);
     }
 }
