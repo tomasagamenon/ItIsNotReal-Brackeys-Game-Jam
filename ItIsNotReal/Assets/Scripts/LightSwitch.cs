@@ -24,13 +24,15 @@ public class LightSwitch : Interactable
             {
                 light.GetComponentInChildren<Renderer>().material = lightOff;
                 lights[numOfLight].SetActive(false);
-                darkness[numOfLight].SetActive(true);
+                if (darkness.Count > numOfLight)
+                    darkness[numOfLight].SetActive(true);
             }
             else
             {
                 light.GetComponentInChildren<Renderer>().material = ligthOn;
                 lights[numOfLight].SetActive(true);
-                darkness[numOfLight].SetActive(false);
+                if (darkness.Count > numOfLight)
+                    darkness[numOfLight].SetActive(false);
             }
             numOfLight++;
         }

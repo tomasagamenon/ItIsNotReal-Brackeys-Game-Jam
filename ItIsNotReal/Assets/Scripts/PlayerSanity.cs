@@ -1,4 +1,3 @@
-using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +8,7 @@ public class PlayerSanity : MonoBehaviour
 {
     [SerializeField]
     Volume volume;
+    [SerializeField]
     int sanity;
     int sanitySave;
 
@@ -16,10 +16,12 @@ public class PlayerSanity : MonoBehaviour
     [SerializeField]
     private float darkness;
     private float darknessCurrent;
+    [SerializeField]
     private bool darknessBool;
     [SerializeField]
     private float seeEnemy;
     private float seeEnemyCurrent;
+    [SerializeField]
     private bool seeEnemyBool;
     [SerializeField]
     private float rangeEnemy;
@@ -28,6 +30,7 @@ public class PlayerSanity : MonoBehaviour
     [SerializeField]
     private float pursued;
     private float pursuedCurrent;
+    [SerializeField]
     public bool pursuedBool;
     [SerializeField]
     private float quiet;
@@ -91,29 +94,43 @@ public class PlayerSanity : MonoBehaviour
 
     void Update()
     {
-        if (sanity != sanitySave)
+        if (sanity < sanitySave)
         {
             sanitySave = sanity;
             if (sanity <= SanityStartVInt)
-                vignette.intensity.value = Calculate(MaxVIntensity, vignette.intensity.value, SanityStartVInt);
+                vignette.intensity.value = Calculate(MaxVIntensity, MinVIntensity, vignette.intensity.value, SanityStartVInt, 1);
             if (sanity <= SanityStartVSmooth)
-                vignette.smoothness.value = Calculate(MaxVSmoothness, vignette.smoothness.value, SanityStartVSmooth);
+                vignette.smoothness.value = Calculate(MaxVSmoothness, MinVSmoothness, vignette.smoothness.value, SanityStartVSmooth, 1);
             if (sanity <= SanityStartLDInt)
-                lens.intensity.value = Calculate(MaxLDIntensity, lens.intensity.value, SanityStartLDInt);
+                lens.intensity.value = Calculate(MaxLDIntensity, MinLDIntensity, lens.intensity.value, SanityStartLDInt, 1);
             if (sanity <= SanityStartCAInt)
-                chromatic.intensity.value = Calculate(MaxCAIntensity, chromatic.intensity.value, SanityStartCAInt);
+                chromatic.intensity.value = Calculate(MaxCAIntensity, MinCAIntensity, chromatic.intensity.value, SanityStartCAInt, 1);
             multiplierSanity += multiplierSanityPerPoint;
         }
-        if (GetComponent<FirstPersonController>().IsInSight(FindObjectOfType<AIFollow>().transform, rangeEnemy, angleEnemy))
+        else if (sanity > sanitySave)
+        {
+            sanitySave = sanity;
+            if (sanity <= SanityStartVInt)
+                vignette.intensity.value = Calculate(MaxVIntensity, MinVIntensity, vignette.intensity.value, SanityStartVInt, -1);
+            if (sanity <= SanityStartVSmooth)
+                vignette.smoothness.value = Calculate(MaxVSmoothness, MinVSmoothness, vignette.smoothness.value, SanityStartVSmooth, -1);
+            if (sanity <= SanityStartLDInt)
+                lens.intensity.value = Calculate(MaxLDIntensity, MinLDIntensity, lens.intensity.value, SanityStartLDInt, -1);
+            if (sanity <= SanityStartCAInt)
+                chromatic.intensity.value = Calculate(MaxCAIntensity, MinCAIntensity, chromatic.intensity.value, SanityStartCAInt, -1);
+            multiplierSanity -= multiplierSanityPerPoint;
+        }
+        if (GetComponent<StarterAssets.FirstPersonController>().IsInSight(FindObjectOfType<AIFollow>().transform, 
+            rangeEnemy, angleEnemy) && sanity > 0)
             seeEnemyBool = true;
         else seeEnemyBool = false;
-        if (seeEnemyBool)
+        if (seeEnemyBool && sanity > 0)
             SeeEnemySanity();
-        if (pursuedBool)
+        if (pursuedBool && sanity > 0)
             PursuedSanity();
-        if (darknessBool)
+        if (darknessBool && sanity > 0)
             DarknessSanity();
-        if (!seeEnemyBool && !darknessBool && !pursuedBool)
+        if (!seeEnemyBool && !darknessBool && !pursuedBool && sanity < 100)
             QuietSanity();
     }
 
@@ -132,6 +149,7 @@ public class PlayerSanity : MonoBehaviour
 
     public void SeeEnemySanity()
     {
+        seeEnemyCurrent -= Time.deltaTime;
         if (seeEnemyCurrent <= 0)
         {
             seeEnemyCurrent = seeEnemy;
@@ -141,6 +159,7 @@ public class PlayerSanity : MonoBehaviour
 
     public void PursuedSanity()
     {
+        pursuedCurrent -= Time.deltaTime;
         if (pursuedCurrent <= 0)
         {
             pursuedCurrent = pursued;
@@ -150,6 +169,7 @@ public class PlayerSanity : MonoBehaviour
 
     public void DarknessSanity()
     {
+        darknessCurrent -= Time.deltaTime;
         if (darknessCurrent <= 0)
         {
             darknessCurrent = darkness;
@@ -159,6 +179,7 @@ public class PlayerSanity : MonoBehaviour
 
     public void QuietSanity()
     {
+        quietCurrent -= Time.deltaTime;
         if (quietCurrent <= 0)
         {
             quietCurrent = quiet;
@@ -166,11 +187,18 @@ public class PlayerSanity : MonoBehaviour
         }
     }
 
-    float Calculate(float maxValue, float value, int sanityStart)
+    float Calculate(float maxValue, float minValue, float value, int sanityStart, int mult)
     {
-        var multiplier = 1 + (multiplierSanityPerPoint * sanity);
-        var one = (maxValue / sanityStart) / multiplier;
-        return (one + value);
+        if (value >= maxValue && mult > 0)
+            return value;
+        else if (value <= minValue && mult < 0)
+            return value;
+        else
+        {
+            var multiplier = 1 + (multiplierSanityPerPoint * sanity);
+            var one = ((maxValue / sanityStart) / multiplier) * mult;
+            return (one + value);
+        }
     }
     private void OnDrawGizmosSelected()
     {
