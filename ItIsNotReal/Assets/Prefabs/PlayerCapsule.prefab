@@ -374,23 +374,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: {fileID: 0}
-  darkness: 3
+  darkness: 0.1
   seeEnemy: 2
   rangeEnemy: 40
   angleEnemy: 60
   pursued: 1
   pursuedBool: 0
   quiet: 5
-  multiplierSanityPerPoint: 0
-  SanityStartCAInt: 0
-  MaxCAIntensity: 0
+  multiplierSanityPerPoint: 0.001
+  SanityStartCAInt: 100
+  MaxCAIntensity: 1
   MinCAIntensity: 0
-  SanityStartLDInt: 0
-  MaxLDIntensity: 0
+  SanityStartLDInt: 100
+  MaxLDIntensity: 0.5
   MinLDIntensity: 0
-  SanityStartVInt: 0
-  MaxVIntensity: 0
+  SanityStartVInt: 100
+  MaxVIntensity: 0.5
   MinVIntensity: 0
-  SanityStartVSmooth: 0
-  MaxVSmoothness: 0
-  MinVSmoothness: 0
+  SanityStartVSmooth: 100
+  MaxVSmoothness: 0.7
+  MinVSmoothness: 0.2
