@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.033968426, g: 0.022155507, b: 0.063474625, a: 1}
+  m_IndirectSpecularColor: {r: 0.03396856, g: 0.022155577, b: 0.063474804, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9736,7 +9736,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &639074757
 Rigidbody:
@@ -10208,7 +10208,7 @@ Transform:
   - {fileID: 1550166415}
   - {fileID: 813541149}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &661429995
 PrefabInstance:
@@ -18863,6 +18863,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 995241730083672436, guid: 76b1ed2bca25cc54ca385b911d0647be, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 995241730083672440, guid: 76b1ed2bca25cc54ca385b911d0647be, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -18873,7 +18877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 995241730083672440, guid: 76b1ed2bca25cc54ca385b911d0647be, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 995241730083672440, guid: 76b1ed2bca25cc54ca385b911d0647be, type: 3}
       propertyPath: m_AnchorMax.x
@@ -22959,7 +22963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1442381933
 MonoBehaviour:
   m_ObjectHideFlags: 0
