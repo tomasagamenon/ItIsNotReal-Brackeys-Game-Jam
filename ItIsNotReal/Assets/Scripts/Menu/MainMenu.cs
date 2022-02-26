@@ -53,6 +53,7 @@ public class MainMenu : MonoBehaviour
         gameMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1;
     }
     public void ToggleMenu()
     {
@@ -114,8 +115,7 @@ public class MainMenu : MonoBehaviour
             ToggleSettings();
         else if (credits.activeInHierarchy)
             ToggleCredits();
-        gMenuText.color = black;
-        Debug.Log("Quit to Menu");
+        SceneManager.LoadScene(1);
     }
     public void Quit()
     {
@@ -123,8 +123,6 @@ public class MainMenu : MonoBehaviour
             ToggleSettings();
         else if (credits.activeInHierarchy)
             ToggleCredits();
-        quitText.color = black;
-        gMenuText.color = black;
         Application.Quit();
     }
     public void FovUpdate(float value)
