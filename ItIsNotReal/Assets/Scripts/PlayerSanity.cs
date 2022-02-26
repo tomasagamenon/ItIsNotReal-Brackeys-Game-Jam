@@ -9,6 +9,18 @@ public class PlayerSanity : MonoBehaviour
     Volume volume;
     int sanity;
     int sanitySave;
+
+    [Header("SanityUpAndDown")]
+    [SerializeField]
+    private float darkness;
+    [SerializeField]
+    private float seeEnemy;
+    [SerializeField]
+    private float pursued;
+    [SerializeField]
+    private float quiet;
+
+    [Header("PostProcessing")]
     [SerializeField]
     private float multiplierSanityPerPoint;
     private float multiplierSanity;
