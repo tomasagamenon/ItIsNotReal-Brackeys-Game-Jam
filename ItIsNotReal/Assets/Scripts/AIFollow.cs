@@ -63,6 +63,7 @@ public class AIFollow : MonoBehaviour
 
     IEnumerator Follow()
     {
+        FindObjectOfType<PlayerSanity>().pursuedBool = true;
         command = Commands.Follow;
         yield return new WaitUntil(() => !Physics.Raycast(transform.position, player.transform.position));
         command = Commands.Nothing;
@@ -77,6 +78,7 @@ public class AIFollow : MonoBehaviour
         yield return new WaitForSeconds(timeSeaching);
         command = Commands.Idle;
         yield return new WaitForSeconds(2);
+        FindObjectOfType<PlayerSanity>().pursuedBool = false;
         command = Commands.Walk;
     }
 }

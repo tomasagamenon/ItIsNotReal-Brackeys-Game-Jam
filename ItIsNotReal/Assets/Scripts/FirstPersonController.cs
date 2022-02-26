@@ -126,7 +126,7 @@ namespace StarterAssets
 			{
 				var interactable = FindObjectsOfType<Interactable>();
 				foreach(Interactable interact in interactable)
-					if (IsInSight(interact.transform))
+					if (IsInSight(interact.transform, range))
 						interact.Interact();
 				_input.interact = false;
 
@@ -285,7 +285,7 @@ namespace StarterAssets
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
 
-		public bool IsInSight(Transform target)
+		public bool IsInSight(Transform target, float range)
 		{
 			var pos = FindObjectOfType<Camera>().transform;
 			if (FindObjectOfType<StarterAssets.FirstPersonController>().hide)

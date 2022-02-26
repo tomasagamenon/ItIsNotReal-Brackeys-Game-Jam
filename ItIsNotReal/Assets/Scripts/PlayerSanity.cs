@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerSanity : MonoBehaviour
 {
+    [SerializeField]
     Volume volume;
     int sanity;
     int sanitySave;
@@ -13,12 +15,21 @@ public class PlayerSanity : MonoBehaviour
     [Header("SanityUpAndDown")]
     [SerializeField]
     private float darkness;
+    private float darknessCurrent;
+    private bool darknessBool;
     [SerializeField]
     private float seeEnemy;
+    private float seeEnemyCurrent;
+    private bool seeEnemyBool;
+    [SerializeField]
+    private float rangeEnemy;
     [SerializeField]
     private float pursued;
+    private float pursuedCurrent;
+    public bool pursuedBool;
     [SerializeField]
     private float quiet;
+    private float quietCurrent;
 
     [Header("PostProcessing")]
     [SerializeField]
@@ -70,6 +81,10 @@ public class PlayerSanity : MonoBehaviour
         vignette.smoothness.value = MinVSmoothness;
         lens.intensity.value = MinLDIntensity;
         chromatic.intensity.value = MinCAIntensity;
+        seeEnemyCurrent = seeEnemy;
+        pursuedCurrent = pursued;
+        darknessCurrent = darkness;
+        quietCurrent = quiet;
     }
 
     void Update()
@@ -86,6 +101,66 @@ public class PlayerSanity : MonoBehaviour
             if (sanity <= SanityStartCAInt)
                 chromatic.intensity.value = Calculate(MaxCAIntensity, chromatic.intensity.value, SanityStartCAInt);
             multiplierSanity += multiplierSanityPerPoint;
+        }
+        if (GetComponent<FirstPersonController>().IsInSight(FindObjectOfType<AIFollow>().transform, rangeEnemy))
+            seeEnemyBool = true;
+        else seeEnemyBool = false;
+        if (seeEnemyBool)
+            SeeEnemySanity();
+        if (pursuedBool)
+            PursuedSanity();
+        if (darknessBool)
+            DarknessSanity();
+        if (!seeEnemyBool && !darknessBool && !pursuedBool)
+            QuietSanity();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 9)
+            darknessBool = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+
+        if (other.gameObject.layer == 9)
+            darknessBool = false;
+    }
+
+    public void SeeEnemySanity()
+    {
+        if (seeEnemyCurrent <= 0)
+        {
+            seeEnemyCurrent = seeEnemy;
+            sanity -= 1;
+        }
+    }
+
+    public void PursuedSanity()
+    {
+        if (pursuedCurrent <= 0)
+        {
+            pursuedCurrent = pursued;
+            sanity -= 1;
+        }
+    }
+
+    public void DarknessSanity()
+    {
+        if (darknessCurrent <= 0)
+        {
+            darknessCurrent = darkness;
+            sanity -= 1;
+        }
+    }
+
+    public void QuietSanity()
+    {
+        if (quietCurrent <= 0)
+        {
+            quietCurrent = quiet;
+            sanity += 1;
         }
     }
 
