@@ -9886,7 +9886,6 @@ MonoBehaviour:
   - {fileID: 1518336676}
   darkness:
   - {fileID: 298026897}
-  - {fileID: 0}
 --- !u!65 &639074753
 BoxCollider:
   m_ObjectHideFlags: 0
