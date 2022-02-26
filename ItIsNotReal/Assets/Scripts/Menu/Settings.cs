@@ -26,7 +26,7 @@ public class Settings : MonoBehaviour
     [SerializeField]private bool playerHold = true;
 
     private float defaultFov = 60;
-    private float defaultSensibility = 100;
+    private float defaultSensibility = 1;
     private void Awake()
     {
         mainMenu = GetComponent<MainMenu>();
