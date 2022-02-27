@@ -26,23 +26,23 @@ public class AIFollow : MonoBehaviour
         switch(command)
         {
             case Commands.Idle:
+                animator.SetBool("Walk", false);
                 agent.isStopped = true;
-                animator.Play("Idle");
                 break;
             case Commands.Walk:
+                animator.SetBool("Walk", true);
                 agent.isStopped = false;
-                animator.Play("Walk");
                 if (!agent.hasPath)
                     agent.SetDestination(nodes[Random.Range(0, nodes.Count)].position);
                 break;
             case Commands.Follow:
+                animator.SetBool("Walk", true);
                 agent.isStopped = false;
-                animator.Play("Walk");
                 agent.SetDestination(player.transform.position);
                 break;
             case Commands.Search:
+                animator.SetBool("Walk", true);
                 agent.isStopped = false;
-                animator.Play("Walk");
                 if (!agent.hasPath)
                 {
                     NavMeshPath path = new NavMeshPath();
