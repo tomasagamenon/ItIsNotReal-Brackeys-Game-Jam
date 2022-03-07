@@ -12,6 +12,7 @@ public class AIFollow : MonoBehaviour
     public Commands command;
     public float searchArea;
     public List<Transform> nodes;
+    public Animator animator;
     // Start is called before the first frame update
     void Awake()
     {
@@ -25,18 +26,22 @@ public class AIFollow : MonoBehaviour
         switch(command)
         {
             case Commands.Idle:
+                animator.SetBool("Walk", false);
                 agent.isStopped = true;
                 break;
             case Commands.Walk:
+                animator.SetBool("Walk", true);
                 agent.isStopped = false;
                 if (!agent.hasPath)
                     agent.SetDestination(nodes[Random.Range(0, nodes.Count)].position);
                 break;
             case Commands.Follow:
+                animator.SetBool("Walk", true);
                 agent.isStopped = false;
                 agent.SetDestination(player.transform.position);
                 break;
             case Commands.Search:
+                animator.SetBool("Walk", true);
                 agent.isStopped = false;
                 if (!agent.hasPath)
                 {

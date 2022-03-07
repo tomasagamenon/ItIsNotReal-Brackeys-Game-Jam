@@ -19,6 +19,8 @@ public class MainMenu : MonoBehaviour
     public TextMeshProUGUI gResumeText;
     public TextMeshProUGUI gSettingsText;
     public TextMeshProUGUI gMenuText;
+    public GameObject pointer;
+    public GameObject interactuable;
     [Header("Settings")]
     [SerializeField]private TextMeshProUGUI _fovValue;
     [SerializeField]private TextMeshProUGUI _sensibilityValue;
@@ -51,6 +53,7 @@ public class MainMenu : MonoBehaviour
         else if (credits.activeInHierarchy)
             ToggleCredits();
         gameMenu.SetActive(false);
+        pointer.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
@@ -59,21 +62,22 @@ public class MainMenu : MonoBehaviour
     {
         if (!gameMenu.activeInHierarchy)
         {
+            pointer.SetActive(false);
+            interactuable.SetActive(false);
             gameMenu.SetActive(true);
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
             Time.timeScale = 0;
-            //pausar cosas de algun modo
         }
         else
         {
             if (settings.activeInHierarchy)
                 ToggleSettings();
             gameMenu.SetActive(false);
+            pointer.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1;
-            //despausar cosas
         }
 
     }
@@ -131,7 +135,7 @@ public class MainMenu : MonoBehaviour
     }
     public void SensibilityUpdate(float value)
     {
-        _sensibilityValue.text = value.ToString("N2");
+        _sensibilityValue.text = (value * 50).ToString("N0");
     }
     public void MasterUpdate(float value)
     {
